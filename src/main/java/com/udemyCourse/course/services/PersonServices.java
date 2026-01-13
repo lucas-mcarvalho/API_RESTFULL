@@ -1,7 +1,9 @@
 package com.udemyCourse.course.services;
 
+import com.udemyCourse.course.controllers.PersonController;
 import com.udemyCourse.course.dataDTO.v1.PersonDTO;
 import com.udemyCourse.course.dataDTO.v2.PersonDTOv2;
+import com.udemyCourse.course.exceptions.RequireObjectsIsNullException;
 import com.udemyCourse.course.exceptions.ResourceNotFoundException;
 import static com.udemyCourse.course.mapper.ObjectMapper.parserListObject;
 import static com.udemyCourse.course.mapper.ObjectMapper.parserObject;
@@ -12,6 +14,9 @@ import com.udemyCourse.course.repository.PersonRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,15 +37,19 @@ public class PersonServices {
 
     public List<PersonDTO> findAll(){
         logger.info("Finding All PersonDTO!");
-       return parserListObject(repository.findAll(),PersonDTO.class);
-
+        var persons = parserListObject(repository.findAll(),PersonDTO.class);
+        persons.forEach(this::addHateoasLinks);
+        return persons;
     }
     public PersonDTO findById(Long id){
         logger.info("Finding one Person!");
         var entity= repository.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException("No record for this id!"));
-        return parserObject(entity,PersonDTO.class);
+        var dto =  parserObject(entity,PersonDTO.class);
+        addHateoasLinks(dto);
+        return dto;
     }
+
 
 
 
@@ -58,8 +67,11 @@ public class PersonServices {
 
     public PersonDTO create( PersonDTO person){
         logger.info("Create one PersonDTO!");
+        if(person == null) throw new RequireObjectsIsNullException();
         var entity = parserObject(person,Person.class);
-        return parserObject(repository.save(entity),PersonDTO.class);
+        var dto = parserObject(repository.save(entity),PersonDTO.class);
+        addHateoasLinks(dto);
+        return  dto;
     }
 
     public PersonDTO update( PersonDTO person){
@@ -70,8 +82,10 @@ public class PersonServices {
         entity.setAddres(person.getAddres());
         entity.setGender(person.getGender());
 
-      return parserObject(repository.save(entity),PersonDTO.class);
+      var dto = parserObject(repository.save(entity),PersonDTO.class);
+      addHateoasLinks(dto);
 
+        return dto;
     }
 
     public void delete(Long id){
@@ -79,11 +93,24 @@ public class PersonServices {
         Person entity =  repository.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException("No record for this id!"));
         repository.delete(entity);
+
     }
 
     public PersonDTOv2 createv2( PersonDTOv2 person){
         logger.info("Create one PersonDTOV2!");
         var entity = parserObject(person,Person.class);
-        return converter.convertEntityToDTO(repository.save(entity));
+        var dto = converter.convertEntityToDTO(repository.save(entity));
+        return  dto;
+    }
+
+
+    private void addHateoasLinks(PersonDTO dto) {
+        dto.add(linkTo(methodOn(PersonController.class).findById(dto.getId())).withSelfRel().withType("GET"));
+        dto.add(linkTo(methodOn(PersonController.class).findAll()).withRel("findAll").withType("GET"));
+        dto.add(linkTo(methodOn(PersonController.class).delete(dto.getId())).withRel("delete").withType("DELETE"));
+        dto.add(linkTo(methodOn(PersonController.class).create(dto)).withRel("create").withType("POST"));
+        dto.add(linkTo(methodOn(PersonController.class).update(dto)).withRel("update").withType("PUT"));
+
+
     }
 }

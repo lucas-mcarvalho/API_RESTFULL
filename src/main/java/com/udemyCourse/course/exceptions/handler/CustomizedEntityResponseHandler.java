@@ -1,6 +1,7 @@
 package com.udemyCourse.course.exceptions.handler;
 
 import com.udemyCourse.course.exceptions.ExceptionResponse;
+import com.udemyCourse.course.exceptions.RequireObjectsIsNullException;
 import com.udemyCourse.course.exceptions.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,11 @@ public class CustomizedEntityResponseHandler extends ResponseEntityExceptionHand
     public final ResponseEntity<ExceptionResponse> handleNotFoundExceptions(Exception ex, WebRequest request){
         ExceptionResponse response = new ExceptionResponse(new Date(),ex.getMessage(),request.getDescription(false));
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+
+    }  @ExceptionHandler(RequireObjectsIsNullException.class)
+    public final ResponseEntity<ExceptionResponse> handleBadRequestExceptions(Exception ex, WebRequest request){
+        ExceptionResponse response = new ExceptionResponse(new Date(),ex.getMessage(),request.getDescription(false));
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 
     }
 }
