@@ -1,4 +1,4 @@
-package com.udemyCourse.course.unitests.mapper.mocks;
+package com.udemyCourse.course.unittests.mapper.mocks.mapper;
 
 import com.udemyCourse.course.dataDTO.v1.PersonDTO;
 import com.udemyCourse.course.model.Person;

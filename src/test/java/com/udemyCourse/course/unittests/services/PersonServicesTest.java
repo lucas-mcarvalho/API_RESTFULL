@@ -1,10 +1,10 @@
-package com.udemyCourse.course.services;
+package com.udemyCourse.course.unittests.services;
 
 import com.udemyCourse.course.dataDTO.v1.PersonDTO;
 import com.udemyCourse.course.exceptions.RequireObjectsIsNullException;
 import com.udemyCourse.course.model.Person;
 import com.udemyCourse.course.repository.PersonRepository;
-import com.udemyCourse.course.unitests.mapper.mocks.MockPerson;
+import com.udemyCourse.course.unittests.mapper.mocks.mapper.MockPerson;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
