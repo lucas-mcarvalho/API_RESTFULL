@@ -36,6 +36,7 @@ public class PersonController implements PersonControllerDocs {
     }
 
 
+    
     @RequestMapping(method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE})
     @Override
     public List<PersonDTO> findAll(){
@@ -59,12 +60,14 @@ public class PersonController implements PersonControllerDocs {
     @RequestMapping(method = RequestMethod.PUT, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE}, consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE})
 
     @Override
+
     public PersonDTO update(@RequestBody PersonDTO PersonDTO){
         return service.update(PersonDTO);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @Override
+
     public ResponseEntity<?> delete(@PathVariable("id") Long id){
         service.delete(id);
         return  ResponseEntity.noContent().build();
@@ -73,6 +76,7 @@ public class PersonController implements PersonControllerDocs {
 
     @RequestMapping(value = "/v2", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE}, consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE})
     @Override
+
     public PersonDTOv2 createV2(@RequestBody PersonDTOv2 PersonDTOv2){
         return service.createv2(PersonDTOv2);
     }

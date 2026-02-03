@@ -9,11 +9,12 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ObjectMapperConfig {
 
-    @Bean
-    public ObjectMapper objectMapper(){
-        ObjectMapper mapper = new ObjectMapper();
-        SimpleFilterProvider filters = new SimpleFilterProvider().addFilter("PersonFilter", SimpleBeanPropertyFilter.serializeAllExcept("sensitiveData","lastname"));
-        mapper.setFilterProvider(filters);
-        return mapper;
-    }
+  @Bean
+  public ObjectMapper objectMapper() {
+    ObjectMapper mapper = new ObjectMapper();
+    SimpleFilterProvider filters = new SimpleFilterProvider().addFilter("PersonFilter",
+        SimpleBeanPropertyFilter.serializeAllExcept("sensitiveData", "lastname"));
+    mapper.setFilterProvider(filters);
+    return mapper;
+  }
 }

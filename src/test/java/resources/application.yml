@@ -1,22 +1,28 @@
 server:
   port: 8888
+
 spring:
   application:
     name: course
 
-
   datasource:
-      driver-class-name: com.mysql.cj.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
+security:
+  jwt:
+    token:
+      secret-key: 57cr37
+      expire-length: 3600000
   jpa:
     hibernate:
       ddl-auto: none
     show-sql: false
   open-in-view: false
+
 logging:
-    level:
-      root:
-      #com.udemyCourse.course: WARN
-spring-doc:
-    paths-to-match: /person
-    swagger-ui:
-      use-root-path: true
+  level:
+    root:
+
+springdoc:
+  paths-to-match:
+  swagger-ui:
+    use-root-path: true

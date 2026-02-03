@@ -18,14 +18,14 @@ public class AbstractIntegrationClass {
 
 
     public static class Initializer implements ApplicationContextInitializer <ConfigurableApplicationContext>{
-        static MySQLContainer<?> mysql = new MySQLContainer<>("mysql:lts");
+        static MySQLContainer<?> mysql = new MySQLContainer<>("mysql:9.1.0");
         private void startContainers() {
             Startables.deepStart(Stream.of(mysql)).join();
         }
         private Map<String, String> createConnectionConfiguration() {
             return Map.of(
                     "spring.datasource.url",  mysql.getJdbcUrl() ,
-                    "spring.datasource.url" , mysql.getUsername(),
+                    "spring.datasource.username" , mysql.getUsername(),
                     "spring.datasource.password", mysql.getPassword()
 
             );

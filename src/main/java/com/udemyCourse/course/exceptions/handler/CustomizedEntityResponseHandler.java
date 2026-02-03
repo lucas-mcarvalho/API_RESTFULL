@@ -1,6 +1,7 @@
 package com.udemyCourse.course.exceptions.handler;
 
 import com.udemyCourse.course.exceptions.ExceptionResponse;
+import com.udemyCourse.course.exceptions.InvalidJwtAuthenticationException;
 import com.udemyCourse.course.exceptions.RequireObjectsIsNullException;
 import com.udemyCourse.course.exceptions.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -34,6 +35,11 @@ public class CustomizedEntityResponseHandler extends ResponseEntityExceptionHand
     public final ResponseEntity<ExceptionResponse> handleBadRequestExceptions(Exception ex, WebRequest request){
         ExceptionResponse response = new ExceptionResponse(new Date(),ex.getMessage(),request.getDescription(false));
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+
+    } @ExceptionHandler(InvalidJwtAuthenticationException.class)
+    public final ResponseEntity<ExceptionResponse> handleInvalidJwtExceptions(Exception ex, WebRequest request){
+        ExceptionResponse response = new ExceptionResponse(new Date(),ex.getMessage(),request.getDescription(false));
+        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
 
     }
 }
