@@ -3,7 +3,7 @@ package com.udemyCourse.course.controllers;
 import com.udemyCourse.course.controllers.docs.PersonControllerDocs;
 import com.udemyCourse.course.dataDTO.v1.PersonDTO;
 import com.udemyCourse.course.dataDTO.v2.PersonDTOv2;
-import com.udemyCourse.course.unittests.services.PersonServices;
+import com.udemyCourse.course.services.PersonServices;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;

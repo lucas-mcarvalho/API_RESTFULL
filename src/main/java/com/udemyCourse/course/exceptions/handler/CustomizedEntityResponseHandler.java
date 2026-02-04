@@ -36,7 +36,8 @@ public class CustomizedEntityResponseHandler extends ResponseEntityExceptionHand
         ExceptionResponse response = new ExceptionResponse(new Date(),ex.getMessage(),request.getDescription(false));
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 
-    } @ExceptionHandler(InvalidJwtAuthenticationException.class)
+    }
+    @ExceptionHandler(InvalidJwtAuthenticationException.class)
     public final ResponseEntity<ExceptionResponse> handleInvalidJwtExceptions(Exception ex, WebRequest request){
         ExceptionResponse response = new ExceptionResponse(new Date(),ex.getMessage(),request.getDescription(false));
         return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);

@@ -1,4 +1,4 @@
-package com.udemyCourse.course.Security.jwt;
+package com.udemyCourse.course.security.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
@@ -54,17 +54,18 @@ public class JwtTokenProvider {
     }
 
     private String getRefreshToken(String username, List<String> roles, Date now) {
-        Date refreshTokenvalidity = new Date(now.getTime()+ expireLenght);
+        Date refreshTokenvalidity = new Date(now.getTime()+ expireLenght *3);
         return JWT.create().withClaim("roles",roles)
                 .withIssuedAt(now).withExpiresAt(refreshTokenvalidity).withSubject(username)
-               .sign(algorithm).toString();    }
+               .sign(algorithm);
+    }
 
     private String getAccesToken(String username, List<String> roles, Date now, Date validity) {
         String issueURL = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
 
         return JWT.create().withClaim("roles",roles)
                 .withIssuedAt(now).withExpiresAt(validity).withSubject(username)
-                .withIssuer(issueURL).sign(algorithm).toString();
+                .withIssuer(issueURL).sign(algorithm);
     }
 
     public Authentication getAuthentication(String token){
@@ -82,11 +83,10 @@ public class JwtTokenProvider {
 
     public String ResolveToken(HttpServletRequest request){
         String betterToken = request.getHeader("Authorization");
-        if(StringUtils.isEmpty(betterToken) && betterToken.startsWith("Bearer ")){
+        if(betterToken!= null && betterToken.startsWith("Bearer ")){
             return betterToken.substring("Bearer ".length());
-        }else{
-            throw  new InvalidJwtAuthenticationException("Invalid JWT Token");
         }
+        return null;
     }
 
     public boolean validateToken(String token){
