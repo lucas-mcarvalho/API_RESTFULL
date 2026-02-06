@@ -1,23 +1,40 @@
 services:
   mysql:
-    image: mysql
+    image: mysql:8
     container_name: mysql_db
     restart: always
     environment:
       MYSQL_DATABASE: course
       MYSQL_ROOT_PASSWORD: 123
-      
     ports:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  app:
+    build: .
+    container_name: course_app
+    depends_on:
+      mysql:
+        condition: service_healthy
+    ports:
+      - "8888:8888"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/course
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: 123
+    restart: always
 
   phpmyadmin:
     image: phpmyadmin
     container_name: phpmyadmin
-    restart: always
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
     ports:
       - "8080:80"
     environment:
