@@ -17,7 +17,7 @@ public class CourseApplication {
 
         SpringApplication.run(CourseApplication.class, args);
 
-		generateHashedPassword();
+	//	generateHashedPassword();
 	}
 
 	private static void generateHashedPassword() {

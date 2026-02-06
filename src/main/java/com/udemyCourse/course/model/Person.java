@@ -19,7 +19,7 @@ public class Person implements Serializable {
     private String firstname;
     @Column(name = "last_name",nullable = false,length = 80)
     private String lastname;
-    @Column(name = "addres",nullable = false,length = 100)
+    @Column(name = "address",nullable = false,length = 100)
     private  String addres;
     @Column(name = "gender",nullable = false,length = 100)
     private String gender;
