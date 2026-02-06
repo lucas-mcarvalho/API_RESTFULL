@@ -7,6 +7,8 @@ target/
 !**/src/test/**/resources/
 
 target/
+src/main/resources/
+src/test/resources/
 ### STS ###
 .apt_generated
 .classpath
